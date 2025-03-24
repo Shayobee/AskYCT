@@ -8,7 +8,7 @@ st.set_page_config(page_title="Chat YCT",
 st.title("Chat YCT")
 
 st.markdown(f"""
-<img style="border: 2px solid powderblue" src="data:image/jpeg;base64,{open_picture("chat.webp")}" width="80%"><br>""",
+<img style="border: 2px solid powderblue" src="data:image/jpeg;base64,{open_picture("chat.webp")}" width="70%"><br>""",
             unsafe_allow_html=True)
 
 
