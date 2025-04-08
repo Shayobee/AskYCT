@@ -11,6 +11,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 import streamlit as st
+import sentence_transformers
+# Force model download during deployment
+model = sentence_transformers.SentenceTransformer("all-MiniLM-L6-v2")
 
 
 # Load documents with error handling
