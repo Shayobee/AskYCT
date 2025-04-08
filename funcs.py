@@ -28,15 +28,15 @@ Please visit https://yabatech.edu.ng/ for more information or contact the school
 
 
 # Text splitter and embeddings setup
-
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=600,
-                                               chunk_overlap=200,
-                                               length_function=len)
-chunks = text_splitter.split_documents(docs)
-embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/msmarco-MiniLM-L6-v3")
-vectorstore = FAISS.from_documents(chunks, embedding_model)
-
-# st.error(f"Error initializing vector store or embeddings: {e}")
+try:
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=600,
+                                                   chunk_overlap=200,
+                                                   length_function=len)
+    chunks = text_splitter.split_documents(docs)
+    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    vectorstore = FAISS.from_documents(chunks, embedding_model)
+except Exception as e:
+    st.error(f"Error initializing vector store or embeddings: {e}")
 
 # Initialize API client
 API_TOKEN = st.secrets["hugging_face"]
