@@ -18,7 +18,6 @@ import streamlit as st
 loader = TextLoader("program.txt")
 docs = loader.load()
 documents = [doc.page_content for doc in docs]
-vectorstore = FAISS.from_documents(chunks, embedding_model)
 
 fallback_message = """
 The requested question not in the knowledge base. 
