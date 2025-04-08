@@ -85,7 +85,9 @@ def queries(query):
             return fallback_message
 
         query_embedding = embedding_model.embed_query(query)
-        context_embeddings = [embedding_model.embed_query(doc.page_content) for doc in retrieved_docs]
+        context_texts = [doc.page_content for doc in retrieved_docs]
+        context_embeddings = embedding_model.embed_documents(context_texts)
+
         cosine_sim = cosine_similarity([query_embedding], context_embeddings)
         max_similarity = np.max(cosine_sim)
 
