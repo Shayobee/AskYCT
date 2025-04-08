@@ -29,23 +29,17 @@ Please visit https://yabatech.edu.ng/ for more information or contact the school
 
 
 # Text splitter and embeddings setup
-try:
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=600,
-                                                   chunk_overlap=200,
-                                                   length_function=len)
-    chunks = text_splitter.split_documents(docs)
-    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    vectorstore = FAISS.from_documents(chunks, embedding_model)
-except Exception as e:
-    st.error(f"Error initializing vector store or embeddings: {e}")
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=600,
+                                               chunk_overlap=200,
+                                               length_function=len)
+chunks = text_splitter.split_documents(docs)
+embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+vectorstore = FAISS.from_documents(chunks, embedding_model)
 
 # Initialize API client
 API_TOKEN = st.secrets["hugging_face"]
 model_name = "Qwen/Qwen2.5-72B-Instruct"
-try:
-    client = InferenceClient(model=model_name, token=API_TOKEN)
-except Exception as e:
-    st.error(f"Error initializing Hugging Face InferenceClient: {e}")
+client = InferenceClient(model=model_name, token=API_TOKEN)
 
 # Spellchecker setup
 spell = SpellChecker()
@@ -71,6 +65,12 @@ def detect_greeting(query):
 # Main query function with error handling
 def queries(query):
     try:
+        # Check if required objects are initialized
+        if 'vectorstore' not in globals() or vectorstore is None:
+            return "Error: Knowledge base not properly initialized."
+            
+        if 'embedding_model' not in globals() or embedding_model is None:
+            return "Error: Embedding model not properly initialized."
         greeting_response = detect_greeting(query)
         if greeting_response:
             return greeting_response
