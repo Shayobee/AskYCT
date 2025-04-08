@@ -18,6 +18,7 @@ import streamlit as st
 loader = TextLoader("program.txt")
 docs = loader.load()
 documents = [doc.page_content for doc in docs]
+vectorstore = None
 
 fallback_message = """
 The requested question not in the knowledge base. 
